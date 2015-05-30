@@ -7078,7 +7078,7 @@ interface Document extends Node, GlobalEventHandlers, NodeSelector, DocumentEven
       * Retrieves a collection of all script objects in the document.
       */
     scripts: HTMLCollection;
-    security: string;
+    // security: string; no such property
     /**
       * Retrieves a collection of styleSheet objects representing the style sheets that correspond to each instance of a link or style object in the document.
       */
@@ -7297,13 +7297,13 @@ interface Document extends Node, GlobalEventHandlers, NodeSelector, DocumentEven
       * Returns a reference to the first object with the specified value of the ID or NAME attribute.
       * @param elementId String that specifies the ID value. Case-insensitive.
       */
-    getElementById(elementId: string): HTMLElement;
-    getElementsByClassName(classNames: string): NodeList;
+    getElementById(elementId: string): UniversalElement;
+    getElementsByClassName(classNames: string): NodeListOf<UniversalElement>;
     /**
       * Gets a collection of objects based on the value of the NAME or ID attribute.
       * @param elementName Gets a collection of objects based on the value of the NAME or ID attribute.
       */
-    getElementsByName(elementName: string): NodeList;
+    getElementsByName(elementName: string): NodeListOf<UniversalElement>;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
@@ -7503,7 +7503,7 @@ interface Document extends Node, GlobalEventHandlers, NodeSelector, DocumentEven
       * @param features Contains a list of items separated by commas. Each item consists of an option and a value, separated by an equals sign (for example, "fullscreen=yes, toolbar=yes"). The following values are supported.
       * @param replace Specifies whether the existing entry for the document is replaced in the history list.
       */
-    open(url?: string, name?: string, features?: string, replace?: boolean): Document | Window;
+    open(url?: string, name?: string, features?: string, replace?: boolean): void;
     /** 
       * Returns a Boolean value that indicates whether a specified command can be successfully executed using execCommand, given the current state of the document.
       * @param commandId Specifies a command identifier.
@@ -7716,6 +7716,7 @@ declare var EXT_texture_filter_anisotropic: {
 }
 
 interface Element extends Node, GlobalEventHandlers, ElementTraversal, NodeSelector, ChildNode {
+    className: string;
     classList: DOMTokenList;
     clientHeight: number;
     clientLeft: number;
@@ -8434,7 +8435,7 @@ interface HTMLBRElement extends HTMLElement {
     /**
       * Sets or retrieves the side on which floating objects are not to be positioned when any IHTMLBlockElement is inserted into the document.
       */
-    clear: string;
+    // clear: string; // obsolete
 }
 
 declare var HTMLBRElement: {
@@ -8495,7 +8496,7 @@ declare var HTMLBlockElement: {
 interface HTMLBodyElement extends HTMLElement {
     aLink: any;
     background: string;
-    bgColor: any;
+    bgColor: string;
     bgProperties: string;
     link: any;
     noWrap: boolean;
@@ -8517,8 +8518,8 @@ interface HTMLBodyElement extends HTMLElement {
     onresize: (ev: UIEvent) => any;
     onstorage: (ev: StorageEvent) => any;
     onunload: (ev: Event) => any;
-    text: any;
-    vLink: any;
+    text: string;
+    vLink: string;
     createTextRange(): TextRange;
     addEventListener(type: "MSContentZoom", listener: (ev: UIEvent) => any, useCapture?: boolean): void;
     addEventListener(type: "MSGestureChange", listener: (ev: MSGestureEvent) => any, useCapture?: boolean): void;
@@ -8682,7 +8683,7 @@ interface HTMLButtonElement extends HTMLElement {
       * Sets or retrieves the name of the object.
       */
     name: string;
-    status: any;
+    // status: any; // no such property?
     /**
       * Gets the classification and default behavior of the button.
       */
@@ -8776,6 +8777,22 @@ declare var HTMLCollection: {
     new(): HTMLCollection;
 }
 
+interface HTMLCollectionOf<E extends Element> {
+    /**
+      * Sets or retrieves the number of objects in a collection.
+      */
+    length: number;
+    /**
+      * Retrieves an object from various collections.
+      */
+    item(nameOrIndex?: any, optionalIndex?: any): E;
+    /**
+      * Retrieves a select object or an object from an options collection.
+      */
+    namedItem(name: string): E;
+    [index: number]: E;
+}
+
 interface HTMLDDElement extends HTMLElement {
     /**
       * Sets or retrieves whether the browser automatically performs wordwrap.
@@ -8853,8 +8870,8 @@ declare var HTMLDocument: {
 
 interface HTMLElement extends Element {
     accessKey: string;
-    children: HTMLCollection;
-    className: string;
+    children: HTMLCollectionOf<UniversalElement>;
+    // className: string; // moved to Element
     contentEditable: string;
     dataset: DOMStringMap;
     dir: string;
@@ -8948,7 +8965,7 @@ interface HTMLElement extends Element {
     contains(child: HTMLElement): boolean;
     dragDrop(): boolean;
     focus(): void;
-    getElementsByClassName(classNames: string): NodeList;
+    getElementsByClassName(classNames: string): NodeListOf<UniversalElement>;
     insertAdjacentElement(position: string, insertedElement: Element): Element;
     insertAdjacentHTML(where: string, html: string): void;
     insertAdjacentText(where: string, text: string): void;
@@ -9070,7 +9087,6 @@ interface HTMLEmbedElement extends HTMLElement, GetSVGDocument {
       * Sets or retrieves the height of the object.
       */
     height: string;
-    hidden: any;
     /**
       * Gets or sets whether the DLNA PlayTo device is available.
       */
@@ -9099,7 +9115,7 @@ interface HTMLEmbedElement extends HTMLElement, GetSVGDocument {
       * Retrieves the URL of the plug-in used to view an embedded document.
       */
     pluginspage: string;
-    readyState: string;
+    // readyState: string; // no such property?
     /**
       * Sets or retrieves a URL to be loaded by the object.
       */
@@ -9306,7 +9322,7 @@ interface HTMLFrameElement extends HTMLElement, GetSVGDocument {
     /**
       * Sets the value indicating whether the source file of a frame or iframe has specific security restrictions applied.
       */
-    security: any;
+    // security: any; // no such property
     /**
       * Sets or retrieves a URL to be loaded by the object.
       */
@@ -9633,7 +9649,7 @@ interface HTMLHeadingElement extends HTMLElement {
       * Sets or retrieves a value that indicates the table alignment.
       */
     align: string;
-    clear: string;
+    // clear: string; // no such property?
 }
 
 declare var HTMLHeadingElement: {
@@ -9719,7 +9735,7 @@ interface HTMLIFrameElement extends HTMLElement, GetSVGDocument {
     /**
       * Sets the value indicating whether the source file of a frame or iframe has specific security restrictions applied.
       */
-    security: any;
+    // security: any; // no such property?
     /**
       * Sets or retrieves a URL to be loaded by the object.
       */
@@ -10060,7 +10076,7 @@ interface HTMLInputElement extends HTMLElement {
       * The address or URL of the a media resource that is to be considered.
       */
     src: string;
-    status: boolean;
+    // status: boolean; // no such property?
     /**
       * Defines an increment or jump between values that you want to allow the user to enter. When used with the max and min attributes, lets you control the range and increment (for example, allow only even numbers) that the user can enter into an input field.
       */
@@ -10264,7 +10280,7 @@ declare var HTMLMapElement: {
 
 interface HTMLMarqueeElement extends HTMLElement {
     behavior: string;
-    bgColor: any;
+    bgColor: string;
     direction: string;
     height: string;
     hspace: number;
@@ -10496,7 +10512,7 @@ interface HTMLMediaElement extends HTMLElement {
       * Gets or sets the current playback position, in seconds.
       */
     preload: string;
-    readyState: any;
+    readyState: number;
     /**
       * Returns a TimeRanges object that represents the ranges of the current media resource that can be seeked.
       */
@@ -10956,7 +10972,7 @@ interface HTMLParagraphElement extends HTMLElement {
       * Sets or retrieves how the object is aligned with adjacent text. 
       */
     align: string;
-    clear: string;
+    // clear: string; // no such property?
 }
 
 declare var HTMLParagraphElement: {
@@ -11009,7 +11025,7 @@ interface HTMLPreElement extends HTMLElement {
       * Indicates a citation by rendering text in italic type.
       */
     cite: string;
-    clear: string;
+    // clear: string;  // no such property?
     /**
       * Sets or gets a value that you can use to implement your own width functionality for the object.
       */
@@ -11074,7 +11090,7 @@ interface HTMLScriptElement extends HTMLElement {
     /**
       * Sets or retrieves the event for which the script is written. 
       */
-    event: string;
+    // event: string; // obsolete
     /** 
       * Sets or retrieves the object that is bound to the event script.
       */
@@ -11120,7 +11136,7 @@ interface HTMLSelectElement extends HTMLElement {
       * Sets or retrieves the name of the object.
       */
     name: string;
-    options: HTMLSelectElement;
+    options: HTMLCollection; // should be HTMLOptionsCollection
     /**
       * When present, marks an element that can't be submitted without a value.
       */
@@ -11268,7 +11284,7 @@ interface HTMLTableCellElement extends HTMLElement, HTMLTableAlignment {
       * Sets or retrieves a comma-delimited list of conceptual categories associated with the object.
       */
     axis: string;
-    bgColor: any;
+    bgColor: string;
     /**
       * Retrieves the position of the object in the cells collection of a row.
       */
@@ -11343,7 +11359,7 @@ interface HTMLTableElement extends HTMLElement {
       * Sets or retrieves a value that indicates the table alignment.
       */
     align: string;
-    bgColor: any;
+    bgColor: string;
     /**
       * Sets or retrieves the width of the border to draw around the object.
       */
@@ -11466,7 +11482,7 @@ interface HTMLTableRowElement extends HTMLElement, HTMLTableAlignment {
       * Sets or retrieves how the object is aligned with adjacent text.
       */
     align: string;
-    bgColor: any;
+    bgColor: string;
     /**
       * Retrieves a collection of all cells in the table row.
       */
@@ -11581,7 +11597,7 @@ interface HTMLTextAreaElement extends HTMLElement {
     /**
       * Sets or retrieves the value indicating whether the control is selected.
       */
-    status: any;
+    // status: any; // no such property?
     /**
       * Retrieves the type of control.
       */
@@ -14978,7 +14994,7 @@ interface SVGSVGElement extends SVGElement, DocumentEvent, SVGLocatable, SVGTest
     forceRedraw(): void;
     getComputedStyle(elt: Element, pseudoElt?: string): CSSStyleDeclaration;
     getCurrentTime(): number;
-    getElementById(elementId: string): Element;
+    getElementById(elementId: string): UniversalElement;
     getEnclosureList(rect: SVGRect, referenceElement: SVGElement): NodeList;
     getIntersectionList(rect: SVGRect, referenceElement: SVGElement): NodeList;
     pauseAnimations(): void;
@@ -15823,6 +15839,7 @@ declare var TreeWalker: {
 }
 
 interface UIEvent extends Event {
+    target: UniversalUIEventTarget;
     detail: number;
     view: Window;
     initUIEvent(typeArg: string, canBubbleArg: boolean, cancelableArg: boolean, viewArg: Window, detailArg: number): void;
@@ -17012,10 +17029,10 @@ interface Window extends EventTarget, WindowTimers, WindowSessionStorage, Window
     onsubmit: (ev: Event) => any;
     onsuspend: (ev: Event) => any;
     ontimeupdate: (ev: Event) => any;
-    ontouchcancel: any;
-    ontouchend: any;
-    ontouchmove: any;
-    ontouchstart: any;
+    ontouchcancel: (ev: TouchEvent) => any;
+    ontouchend: (ev: TouchEvent) => any;
+    ontouchmove: (ev: TouchEvent) => any;
+    ontouchstart: (ev: TouchEvent) => any;
     onunload: (ev: Event) => any;
     onvolumechange: (ev: Event) => any;
     onwaiting: (ev: Event) => any;
@@ -17060,7 +17077,7 @@ interface Window extends EventTarget, WindowTimers, WindowSessionStorage, Window
     msMatchMedia(mediaQuery: string): MediaQueryList;
     msRequestAnimationFrame(callback: FrameRequestCallback): number;
     msWriteProfilerMark(profilerMarkName: string): void;
-    open(url?: string, target?: string, features?: string, replace?: boolean): any;
+    open(url?: string, target?: string, features?: string, replace?: boolean): Window;
     postMessage(message: any, targetOrigin: string, ports?: any): void;
     print(): void;
     prompt(message?: string, _default?: string): string;
@@ -17428,10 +17445,10 @@ interface DocumentEvent {
 
 interface ElementTraversal {
     childElementCount: number;
-    firstElementChild: Element;
-    lastElementChild: Element;
-    nextElementSibling: Element;
-    previousElementSibling: Element;
+    firstElementChild: UniversalElement;
+    lastElementChild: UniversalElement;
+    nextElementSibling: UniversalElement;
+    previousElementSibling: UniversalElement;
 }
 
 interface GetSVGDocument {
@@ -17546,8 +17563,11 @@ interface NavigatorStorageUtils {
 }
 
 interface NodeSelector {
-    querySelector(selectors: string): Element;
-    querySelectorAll(selectors: string): NodeList;
+    // seems not possible to resolve to the none-generic version if the generic version exists
+    // querySelector<E extends Element>(selectors: string): E;
+    // querySelectorAll<E extends Element>(selectors: string): NodeListOf<E>;
+    querySelector(selectors: string): UniversalElement;
+    querySelectorAll(selectors: string): NodeListOf<UniversalElement>;
 }
 
 interface RandomSource {
@@ -17595,7 +17615,7 @@ interface SVGLocatable {
 }
 
 interface SVGStylable {
-    className: SVGAnimatedString;
+    // className: SVGAnimatedString; // deprecated in SVG2
     style: CSSStyleDeclaration;
 }
 
@@ -17828,10 +17848,10 @@ declare var onstorage: (ev: StorageEvent) => any;
 declare var onsubmit: (ev: Event) => any;
 declare var onsuspend: (ev: Event) => any;
 declare var ontimeupdate: (ev: Event) => any;
-declare var ontouchcancel: any;
-declare var ontouchend: any;
-declare var ontouchmove: any;
-declare var ontouchstart: any;
+declare var ontouchcancel: (ev: TouchEvent) => any;
+declare var ontouchend: (ev: TouchEvent) => any;
+declare var ontouchmove: (ev: TouchEvent) => any;
+declare var ontouchstart: (ev: TouchEvent) => any;
 declare var onunload: (ev: Event) => any;
 declare var onvolumechange: (ev: Event) => any;
 declare var onwaiting: (ev: Event) => any;
@@ -18294,3 +18314,397 @@ interface VBArrayConstructor {
 }
 
 declare var VBArray: VBArrayConstructor;
+
+interface UniversalElement extends
+    HTMLAnchorElement,
+    // HTMLAppletElement, // obsolete
+    HTMLAreaElement,
+    HTMLAudioElement,
+    HTMLBRElement,
+    HTMLBaseElement,
+    HTMLBaseFontElement,
+    // HTMLBlockElement, // obsolete
+    HTMLBodyElement,
+    HTMLButtonElement,
+    HTMLCanvasElement,
+    HTMLDDElement,
+    HTMLDListElement,
+    HTMLDTElement,
+    HTMLDataListElement,
+    HTMLDirectoryElement,
+    HTMLDivElement,
+    HTMLElement,
+    HTMLEmbedElement,
+    HTMLFieldSetElement,
+    HTMLFontElement,
+    HTMLFormElement,
+    HTMLFrameElement,
+    HTMLFrameSetElement,
+    HTMLHRElement,
+    HTMLHeadElement,
+    HTMLHeadingElement,
+    HTMLHtmlElement,
+    HTMLIFrameElement,
+    HTMLImageElement,
+    HTMLInputElement,
+    // HTMLIsIndexElement,  // obsolete
+    HTMLLIElement,
+    HTMLLabelElement,
+    HTMLLegendElement,
+    HTMLLinkElement,
+    HTMLMapElement,
+    // HTMLMarqueeElement, // obsolete
+    HTMLMediaElement,
+    HTMLMenuElement,
+    HTMLMetaElement,
+    HTMLModElement,
+    HTMLNextIdElement,
+    HTMLOListElement,
+    HTMLObjectElement,
+    HTMLOptGroupElement,
+    HTMLOptionElement,
+    HTMLParagraphElement,
+    HTMLParamElement,
+    HTMLPhraseElement,
+    HTMLPreElement,
+    HTMLProgressElement,
+    HTMLQuoteElement,
+    HTMLScriptElement,
+    HTMLSelectElement,
+    HTMLSourceElement,
+    HTMLSpanElement,
+    HTMLStyleElement,
+    HTMLTableCaptionElement,
+    HTMLTableCellElement,
+    HTMLTableColElement,
+    HTMLTableDataCellElement,
+    HTMLTableElement,
+    HTMLTableHeaderCellElement,
+    HTMLTableRowElement,
+    HTMLTableSectionElement,
+    HTMLTextAreaElement,
+    HTMLTitleElement,
+    HTMLTrackElement,
+    HTMLUListElement,
+    HTMLUnknownElement,
+    HTMLVideoElement,
+    MSHTMLWebViewElement,
+    SVGAElement,
+    SVGCircleElement,
+    SVGClipPathElement,
+    SVGComponentTransferFunctionElement,
+    SVGDefsElement,
+    SVGDescElement,
+    SVGElement,
+    SVGEllipseElement,
+    SVGFEBlendElement,
+    SVGFEColorMatrixElement,
+    SVGFEComponentTransferElement,
+    SVGFECompositeElement,
+    SVGFEConvolveMatrixElement,
+    SVGFEDiffuseLightingElement,
+    SVGFEDisplacementMapElement,
+    SVGFEDistantLightElement,
+    SVGFEFloodElement,
+    SVGFEFuncAElement,
+    SVGFEFuncBElement,
+    SVGFEFuncGElement,
+    SVGFEFuncRElement,
+    SVGFEGaussianBlurElement,
+    SVGFEImageElement,
+    SVGFEMergeElement,
+    SVGFEMergeNodeElement,
+    SVGFEMorphologyElement,
+    SVGFEOffsetElement,
+    SVGFEPointLightElement,
+    SVGFESpecularLightingElement,
+    SVGFESpotLightElement,
+    SVGFETileElement,
+    SVGFETurbulenceElement,
+    SVGFilterElement,
+    SVGForeignObjectElement,
+    SVGGElement,
+    SVGGradientElement,
+    SVGImageElement,
+    SVGLineElement,
+    SVGLinearGradientElement,
+    SVGMarkerElement,
+    SVGMaskElement,
+    SVGMetadataElement,
+    SVGPathElement,
+    SVGPatternElement,
+    SVGPolygonElement,
+    SVGPolylineElement,
+    SVGRadialGradientElement,
+    SVGRectElement,
+    SVGSVGElement,
+    SVGScriptElement,
+    SVGStopElement,
+    SVGStyleElement,
+    SVGSwitchElement,
+    SVGSymbolElement,
+    SVGTSpanElement,
+    SVGTextContentElement,
+    SVGTextElement,
+    SVGTextPathElement,
+    SVGTextPositioningElement,
+    SVGTitleElement,
+    SVGUseElement,
+    SVGViewElement {
+
+    // SVGFEOffsetElement, SVGTextPositioningElement - SVGAnimatedNumber | SVGAnimatedLengthList
+    dx: any;
+    dy: any;
+
+    // HTMLProgressElement, HTMLInputElement - number | string
+    max: any;
+
+    // HTMLImageElement, SVGUseElement - number | SVGAnimatedLength
+    x: any;
+    y: any;
+    width: any;
+    height: any;
+
+    // HTMLFrameSetElement, HTMLTableElement, HTMLTextAreaElement - string | HTMLCollection | number
+    rows: any;
+    cols: any;
+
+    // HTMLFormElement, SVGTextPathElement - string | SVGAnimatedEnumeration
+    method: any;
+
+    // HTMLInputElement/HTMLButtonElement, HTMLProgressElement/HTMLLIElement - string | number
+    value: any;
+
+    // HTMLAnchorElement, SVGURIReference - string | SVGAnimatedString
+    href: any;
+
+    // HTMLAnchorElement, SVGFEFuncRElement - string | SVGAnimatedEnumeration
+    type: any;
+
+    // HTMLAnchorElement, SVGAElement - string | SVGAnimatedString
+    target: any;
+
+    // ChildNode, HTMLSelectElement
+    remove();
+    remove(index?: number): void;
+
+    addEventListener(type: "MSContentZoom", listener: (ev: UIEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "MSGestureChange", listener: (ev: MSGestureEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "MSGestureDoubleTap", listener: (ev: MSGestureEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "MSGestureEnd", listener: (ev: MSGestureEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "MSGestureHold", listener: (ev: MSGestureEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "MSGestureStart", listener: (ev: MSGestureEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "MSGestureTap", listener: (ev: MSGestureEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "MSGotPointerCapture", listener: (ev: MSPointerEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "MSInertiaStart", listener: (ev: MSGestureEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "MSLostPointerCapture", listener: (ev: MSPointerEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "MSManipulationStateChanged", listener: (ev: MSManipulationEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "MSPointerCancel", listener: (ev: MSPointerEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "MSPointerDown", listener: (ev: MSPointerEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "MSPointerEnter", listener: (ev: MSPointerEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "MSPointerLeave", listener: (ev: MSPointerEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "MSPointerMove", listener: (ev: MSPointerEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "MSPointerOut", listener: (ev: MSPointerEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "MSPointerOver", listener: (ev: MSPointerEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "MSPointerUp", listener: (ev: MSPointerEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "abort", listener: (ev: UIEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "activate", listener: (ev: UIEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "ariarequest", listener: (ev: AriaRequestEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "beforeactivate", listener: (ev: UIEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "beforecopy", listener: (ev: DragEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "beforecut", listener: (ev: DragEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "beforedeactivate", listener: (ev: UIEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "beforepaste", listener: (ev: DragEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "blur", listener: (ev: FocusEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "canplay", listener: (ev: Event) => any, useCapture?: boolean): void;
+    addEventListener(type: "canplaythrough", listener: (ev: Event) => any, useCapture?: boolean): void;
+    addEventListener(type: "change", listener: (ev: Event) => any, useCapture?: boolean): void;
+    addEventListener(type: "click", listener: (ev: MouseEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "command", listener: (ev: CommandEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "contextmenu", listener: (ev: PointerEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "copy", listener: (ev: DragEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "cuechange", listener: (ev: Event) => any, useCapture?: boolean): void;
+    addEventListener(type: "cut", listener: (ev: DragEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "dblclick", listener: (ev: MouseEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "deactivate", listener: (ev: UIEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "drag", listener: (ev: DragEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "dragend", listener: (ev: DragEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "dragenter", listener: (ev: DragEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "dragleave", listener: (ev: DragEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "dragover", listener: (ev: DragEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "dragstart", listener: (ev: DragEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "drop", listener: (ev: DragEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "durationchange", listener: (ev: Event) => any, useCapture?: boolean): void;
+    addEventListener(type: "emptied", listener: (ev: Event) => any, useCapture?: boolean): void;
+    addEventListener(type: "ended", listener: (ev: Event) => any, useCapture?: boolean): void;
+    addEventListener(type: "error", listener: (ev: ErrorEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "focus", listener: (ev: FocusEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "focusin", listener: (ev: FocusEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "focusout", listener: (ev: FocusEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "gotpointercapture", listener: (ev: PointerEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "input", listener: (ev: Event) => any, useCapture?: boolean): void;
+    addEventListener(type: "keydown", listener: (ev: KeyboardEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "keypress", listener: (ev: KeyboardEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "keyup", listener: (ev: KeyboardEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "load", listener: (ev: Event) => any, useCapture?: boolean): void;
+    addEventListener(type: "loadeddata", listener: (ev: Event) => any, useCapture?: boolean): void;
+    addEventListener(type: "loadedmetadata", listener: (ev: Event) => any, useCapture?: boolean): void;
+    addEventListener(type: "loadstart", listener: (ev: Event) => any, useCapture?: boolean): void;
+    addEventListener(type: "lostpointercapture", listener: (ev: PointerEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "mousedown", listener: (ev: MouseEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "mouseenter", listener: (ev: MouseEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "mouseleave", listener: (ev: MouseEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "mousemove", listener: (ev: MouseEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "mouseout", listener: (ev: MouseEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "mouseover", listener: (ev: MouseEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "mouseup", listener: (ev: MouseEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "mousewheel", listener: (ev: MouseWheelEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "paste", listener: (ev: DragEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "pause", listener: (ev: Event) => any, useCapture?: boolean): void;
+    addEventListener(type: "play", listener: (ev: Event) => any, useCapture?: boolean): void;
+    addEventListener(type: "playing", listener: (ev: Event) => any, useCapture?: boolean): void;
+    addEventListener(type: "pointercancel", listener: (ev: PointerEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "pointerdown", listener: (ev: PointerEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "pointerenter", listener: (ev: PointerEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "pointerleave", listener: (ev: PointerEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "pointermove", listener: (ev: PointerEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "pointerout", listener: (ev: PointerEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "pointerover", listener: (ev: PointerEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "pointerup", listener: (ev: PointerEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "progress", listener: (ev: ProgressEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "ratechange", listener: (ev: Event) => any, useCapture?: boolean): void;
+    addEventListener(type: "reset", listener: (ev: Event) => any, useCapture?: boolean): void;
+    addEventListener(type: "scroll", listener: (ev: UIEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "seeked", listener: (ev: Event) => any, useCapture?: boolean): void;
+    addEventListener(type: "seeking", listener: (ev: Event) => any, useCapture?: boolean): void;
+    addEventListener(type: "select", listener: (ev: UIEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "selectstart", listener: (ev: Event) => any, useCapture?: boolean): void;
+    addEventListener(type: "stalled", listener: (ev: Event) => any, useCapture?: boolean): void;
+    addEventListener(type: "submit", listener: (ev: Event) => any, useCapture?: boolean): void;
+    addEventListener(type: "suspend", listener: (ev: Event) => any, useCapture?: boolean): void;
+    addEventListener(type: "timeupdate", listener: (ev: Event) => any, useCapture?: boolean): void;
+    addEventListener(type: "touchcancel", listener: (ev: TouchEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "touchend", listener: (ev: TouchEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "touchmove", listener: (ev: TouchEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "touchstart", listener: (ev: TouchEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "volumechange", listener: (ev: Event) => any, useCapture?: boolean): void;
+    addEventListener(type: "waiting", listener: (ev: Event) => any, useCapture?: boolean): void;
+    addEventListener(type: "webkitfullscreenchange", listener: (ev: Event) => any, useCapture?: boolean): void;
+    addEventListener(type: "webkitfullscreenerror", listener: (ev: Event) => any, useCapture?: boolean): void;
+    addEventListener(type: "wheel", listener: (ev: WheelEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: string, listener: EventListenerOrEventListenerObject, useCapture?: boolean): void;
+}
+
+interface UniversalUIEventTarget extends UniversalElement, Document, Window {
+    // Document, Window - (...) => void | (...) => Window
+    open(url?: string, name?: string, features?: string, replace?: boolean): any;
+    // Document, Window - (ev: Event) => any | ErrorEventHandler;
+    onerror: any;
+    // HTMLMediaElement, Document - number | string;
+    readyState: any;
+    addEventListener(type: "MSContentZoom", listener: (ev: UIEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "MSGestureChange", listener: (ev: MSGestureEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "MSGestureDoubleTap", listener: (ev: MSGestureEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "MSGestureEnd", listener: (ev: MSGestureEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "MSGestureHold", listener: (ev: MSGestureEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "MSGestureStart", listener: (ev: MSGestureEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "MSGestureTap", listener: (ev: MSGestureEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "MSGotPointerCapture", listener: (ev: MSPointerEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "MSInertiaStart", listener: (ev: MSGestureEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "MSLostPointerCapture", listener: (ev: MSPointerEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "MSManipulationStateChanged", listener: (ev: MSManipulationEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "MSPointerCancel", listener: (ev: MSPointerEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "MSPointerDown", listener: (ev: MSPointerEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "MSPointerEnter", listener: (ev: MSPointerEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "MSPointerLeave", listener: (ev: MSPointerEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "MSPointerMove", listener: (ev: MSPointerEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "MSPointerOut", listener: (ev: MSPointerEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "MSPointerOver", listener: (ev: MSPointerEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "MSPointerUp", listener: (ev: MSPointerEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "abort", listener: (ev: UIEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "activate", listener: (ev: UIEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "ariarequest", listener: (ev: AriaRequestEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "beforeactivate", listener: (ev: UIEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "beforecopy", listener: (ev: DragEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "beforecut", listener: (ev: DragEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "beforedeactivate", listener: (ev: UIEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "beforepaste", listener: (ev: DragEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "blur", listener: (ev: FocusEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "canplay", listener: (ev: Event) => any, useCapture?: boolean): void;
+    addEventListener(type: "canplaythrough", listener: (ev: Event) => any, useCapture?: boolean): void;
+    addEventListener(type: "change", listener: (ev: Event) => any, useCapture?: boolean): void;
+    addEventListener(type: "click", listener: (ev: MouseEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "command", listener: (ev: CommandEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "contextmenu", listener: (ev: PointerEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "copy", listener: (ev: DragEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "cuechange", listener: (ev: Event) => any, useCapture?: boolean): void;
+    addEventListener(type: "cut", listener: (ev: DragEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "dblclick", listener: (ev: MouseEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "deactivate", listener: (ev: UIEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "drag", listener: (ev: DragEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "dragend", listener: (ev: DragEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "dragenter", listener: (ev: DragEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "dragleave", listener: (ev: DragEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "dragover", listener: (ev: DragEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "dragstart", listener: (ev: DragEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "drop", listener: (ev: DragEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "durationchange", listener: (ev: Event) => any, useCapture?: boolean): void;
+    addEventListener(type: "emptied", listener: (ev: Event) => any, useCapture?: boolean): void;
+    addEventListener(type: "ended", listener: (ev: Event) => any, useCapture?: boolean): void;
+    addEventListener(type: "error", listener: (ev: ErrorEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "focus", listener: (ev: FocusEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "focusin", listener: (ev: FocusEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "focusout", listener: (ev: FocusEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "gotpointercapture", listener: (ev: PointerEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "input", listener: (ev: Event) => any, useCapture?: boolean): void;
+    addEventListener(type: "keydown", listener: (ev: KeyboardEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "keypress", listener: (ev: KeyboardEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "keyup", listener: (ev: KeyboardEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "load", listener: (ev: Event) => any, useCapture?: boolean): void;
+    addEventListener(type: "loadeddata", listener: (ev: Event) => any, useCapture?: boolean): void;
+    addEventListener(type: "loadedmetadata", listener: (ev: Event) => any, useCapture?: boolean): void;
+    addEventListener(type: "loadstart", listener: (ev: Event) => any, useCapture?: boolean): void;
+    addEventListener(type: "lostpointercapture", listener: (ev: PointerEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "mousedown", listener: (ev: MouseEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "mouseenter", listener: (ev: MouseEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "mouseleave", listener: (ev: MouseEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "mousemove", listener: (ev: MouseEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "mouseout", listener: (ev: MouseEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "mouseover", listener: (ev: MouseEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "mouseup", listener: (ev: MouseEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "mousewheel", listener: (ev: MouseWheelEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "paste", listener: (ev: DragEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "pause", listener: (ev: Event) => any, useCapture?: boolean): void;
+    addEventListener(type: "play", listener: (ev: Event) => any, useCapture?: boolean): void;
+    addEventListener(type: "playing", listener: (ev: Event) => any, useCapture?: boolean): void;
+    addEventListener(type: "pointercancel", listener: (ev: PointerEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "pointerdown", listener: (ev: PointerEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "pointerenter", listener: (ev: PointerEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "pointerleave", listener: (ev: PointerEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "pointermove", listener: (ev: PointerEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "pointerout", listener: (ev: PointerEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "pointerover", listener: (ev: PointerEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "pointerup", listener: (ev: PointerEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "progress", listener: (ev: ProgressEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "ratechange", listener: (ev: Event) => any, useCapture?: boolean): void;
+    addEventListener(type: "reset", listener: (ev: Event) => any, useCapture?: boolean): void;
+    addEventListener(type: "scroll", listener: (ev: UIEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "seeked", listener: (ev: Event) => any, useCapture?: boolean): void;
+    addEventListener(type: "seeking", listener: (ev: Event) => any, useCapture?: boolean): void;
+    addEventListener(type: "select", listener: (ev: UIEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "selectstart", listener: (ev: Event) => any, useCapture?: boolean): void;
+    addEventListener(type: "stalled", listener: (ev: Event) => any, useCapture?: boolean): void;
+    addEventListener(type: "submit", listener: (ev: Event) => any, useCapture?: boolean): void;
+    addEventListener(type: "suspend", listener: (ev: Event) => any, useCapture?: boolean): void;
+    addEventListener(type: "timeupdate", listener: (ev: Event) => any, useCapture?: boolean): void;
+    addEventListener(type: "touchcancel", listener: (ev: TouchEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "touchend", listener: (ev: TouchEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "touchmove", listener: (ev: TouchEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "touchstart", listener: (ev: TouchEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: "volumechange", listener: (ev: Event) => any, useCapture?: boolean): void;
+    addEventListener(type: "waiting", listener: (ev: Event) => any, useCapture?: boolean): void;
+    addEventListener(type: "webkitfullscreenchange", listener: (ev: Event) => any, useCapture?: boolean): void;
+    addEventListener(type: "webkitfullscreenerror", listener: (ev: Event) => any, useCapture?: boolean): void;
+    addEventListener(type: "wheel", listener: (ev: WheelEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: string, listener: EventListenerOrEventListenerObject, useCapture?: boolean): void;
+}

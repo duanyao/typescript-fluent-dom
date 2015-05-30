@@ -1,0 +1,10 @@
+{
+    "compilerOptions": {
+        "target": "ES5",
+        "noLib": true,
+        "watch": true
+    },
+    "files": [
+        "test-dom.ts"
+    ]
+}
